@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head runat="server">
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link href="Styles/style.css" rel="stylesheet" type="text/css" />
+		<link href="Styles/msgBoxLight.css" rel="stylesheet" type="text/css" />
+		<script src="Scripts/weborderform.js" type="text/javascript"></script>
+		<script src="Scripts/jquery-2.0.0-vsdoc.js" type="text/javascript"></script>
+		<script src="Scripts/jquery-2.0.0.js" type="text/javascript"></script>
+		<script src="Scripts/jquery.msgBox.js" type="text/javascript"></script>
+		<script src="Scripts/jquery.jscrollpane.min.js" type="text/javascript"></script>
+		<link href="Styles/jquery.jscrollpane.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var username = getCookie("username");
+				if (username != "admin") {
+					jslogin("Admin Login");
+				}
+               
+				
+
+				
+
+				$("#BtnLogout").click(function() {
+
+					setCookie("username", "admin", -1);
+				    window.location = "Home.html";
+				});
+
+				
+			});
+
+		</script>
+	</head>
+	<body>
+		<div class="top"></div>
+		<div class="admin_container">
+			<section id="table_" class="table_" style="height: 86%;">
+				<div class="row_">
+					<section class="table-cell_ section_1">
+						<section class="table_" style="height: 100%;">
+							<div class="row_">
+								<div id="ddblueblockmenu" class="navigation">
+									<nav>
+										<div class="first_NV"></div>
+										<ul>
+											<li>
+												<a href="#"class="Xactive" >Home </a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Edit Pre Order Models</a>
+											</li>
+											<li >
+												<a href="Admin_pages.html" class="playitbtn">View Pre Order List</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Add / Edit Model Finder</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Coming Soon</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Users & Accounts </a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								<div class="table-cell_ work_area" style="height: 100%;">
+									<div class="padding">
+										<!-- P A G E  -  W O R K  -  A R E A -->
+										<div id="body">
+											<div class="header">
+												<div class="headertitle">
+													Construction Site Admin
+												</div>
+												<div class="headercontent">
+													<i>Welcome Admin</i>
+													<input id="BtnLogout" class="btngray" type="button" value="Logout" />
+												</div>
+											</div>
+											<div class="line_space_40">
+											
+											</div>
+											
+                                             <div class="line_space_40">
+											
+											</div>
+									
+
+										
+                                        
+										<!-- END ---P A G E  -  W O R K  -  A R E A -->
+									</div>
+								</div>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

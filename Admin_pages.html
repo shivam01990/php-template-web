@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link href="Styles/style.css" rel="stylesheet" type="text/css" />
+		<link href="Styles/msgBoxLight.css" rel="stylesheet" type="text/css" />
+		<script src="Scripts/weborderform.js" type="text/javascript"></script>
+		<script src="Scripts/jquery-2.0.0-vsdoc.js" type="text/javascript"></script>
+		<script src="Scripts/jquery-2.0.0.js" type="text/javascript"></script>
+		<script src="Scripts/jquery.msgBox.js" type="text/javascript"></script>
+		<script src="Scripts/jquery.jscrollpane.min.js" type="text/javascript"></script>
+		<link href="Styles/jquery.jscrollpane.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript">
+			$(document).ready(function() {
+				Load_grid_data();
+				var username = getCookie("username");
+				if (username != "admin") {
+					window.location="Home.html";
+					jslogin("Admin Login");
+				}
+                	
+				$("#BtnExporttoExel").click(function() {
+
+					var myarray = [];
+					var checkedVals = $('.selectrow:checkbox:checked').map(function() {
+						myarray.push(this.value);
+						return this.value;
+					}).get();
+					if (myarray.length > 0) {
+						$("#secretIFrame").attr("src", "custom/Export_to_excel.php?data=" + myarray);
+						jsalert("Your files have successfully transffered.");
+					} else {
+						jsalert("No item is selected ");
+					}
+
+				});
+
+				$("#BtnDeleteselectedlines").click(function() {
+
+					$.msgBox({
+						title : "",
+						content : "Are you sure you want to delete?",
+						type : "confirm",
+						buttons : [{
+							value : "Yes"
+						}, {
+							value : "No"
+						}],
+						success : function(result) {
+							if (result == 'Yes') {
+								//$('#gridpanel').html('');
+								var myarray = [];
+								var checkedVals = $('.selectrow:checkbox:checked').map(function() {
+									myarray.push(this.value);
+									return this.value;
+								}).get();
+								Delete_grid_data(myarray);
+								Load_grid_data();
+							}
+						}
+					});
+
+				});
+
+				$("#BtnSendEmailNotification1").click(function() {
+					//  jsconfirm("Are you sure want to send Email");
+					var myarray = [];
+					var checkedVals = $('.selectrow:checkbox:checked').map(function() {
+						myarray.push(this.value);
+						return this.value;
+					}).get();
+					//alert(checkedVals.join(","));
+					// alert(myarray[1]);
+					if (myarray.length > 0) {
+						Send_email_1(myarray);
+					} else {
+						jsalert("No item is selected ");
+					}
+
+				});
+				
+				$("#BtnSendEmailNotification2").click(function() {
+					//  jsconfirm("Are you sure want to send Email");
+					var myarray = [];
+					var checkedVals = $('.selectrow:checkbox:checked').map(function() {
+						myarray.push(this.value);
+						return this.value;
+					}).get();
+					//alert(checkedVals.join(","));
+					// alert(myarray[1]);
+					if (myarray.length > 0) {
+						Send_email_2(myarray);
+					} else {
+						jsalert("No item is selected ");
+					}
+
+				});
+
+
+				$("#BtnLogout").click(function() {
+
+					/*$.msgBox({
+						title : "",
+						content : "Would you like to save before leaving this page?",
+						type : "confirm",
+						buttons : [{
+							value : "Yes"
+						}, {
+							value : "No"
+						}],
+						success : function(result) {
+							// var v = result + " has been clicked\n";
+							// alert(v);
+							if (result == "Yes"||result == "No") {
+								write here your code
+							}
+
+						}
+					});*/
+					setCookie("username", "admin", -1);
+			        window.location = "Home.html";
+				});
+
+				Scroller();
+
+			});
+
+			function Scroller() {
+				$("#scroll").jScrollPane({
+					showArrows : true,
+					arrowScrollOnHover : true
+				});
+			}
+
+			function AnimateLoading() {
+				//jsalert("<div><img src='images/loading.gif' width='120px' /><br/><br/> Loading.........</div>");
+				$("#animate").css("display", "block");
+			}
+
+			function Load_grid_data() {
+				var xmlhttp;
+				if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else {// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						$("#animate").css("display", "none");
+						$('#gridpanel').html(xmlhttp.responseText);
+						Scroller();
+						$("#clickall").click(function() {
+							$('.selectrow').prop('checked', 'checked');
+						});
+						$("#uncheckall").click(function() {
+							$('.selectrow').removeAttr('checked');
+						});
+					}
+
+				}
+				xmlhttp.open("POST", "custom/load_grid_data.php", true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				AnimateLoading();
+				xmlhttp.send();
+			}
+
+			function Delete_grid_data(dataarray) {
+				var xmlhttp;
+				if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else {// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						$("#animate").css("display", "none");
+						jsalert(xmlhttp.responseText);
+
+					}
+
+				}
+				xmlhttp.open("POST", "custom/delete_grid_data.php", true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				AnimateLoading();
+				xmlhttp.send("data=" + dataarray);
+
+			}
+			
+			function Send_email_2(data)
+			{
+				var xmlhttp;
+						if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+							xmlhttp = new XMLHttpRequest();
+						} else {// code for IE6, IE5
+							xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+						}
+						xmlhttp.onreadystatechange = function() {
+							if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+								$("#animate").css("display", "none");
+								jsalert(xmlhttp.responseText);
+							}
+
+						}
+						xmlhttp.open("POST", "custom/mailer_email_notification_2.php", true);
+						xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						AnimateLoading();
+						xmlhttp.send("data=" + data);
+			}
+			function Send_email_1(data)
+			{
+				var xmlhttp;
+						if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+							xmlhttp = new XMLHttpRequest();
+						} else {// code for IE6, IE5
+							xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+						}
+						xmlhttp.onreadystatechange = function() {
+							if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+								$("#animate").css("display", "none");
+								jsalert(xmlhttp.responseText);
+							}
+
+						}
+						xmlhttp.open("POST", "custom/mailer_email_notification_1.php", true);
+						xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						AnimateLoading();
+						xmlhttp.send("data=" + data);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="top"></div>
+		<div class="admin_container">
+			<section id="table_" class="table_" style="height: 86%;">
+				<div class="row_">
+					<section class="table-cell_ section_1">
+						<section class="table_" style="height: 100%;">
+							<div class="row_">
+								<div id="ddblueblockmenu" class="navigation">
+									<nav>
+										<div class="first_NV"></div>
+										<ul>
+											<li>
+												<a href="Home.html" class="playitbtn">Home </a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Edit Pre Order Models</a>
+											</li>
+											<li class="Xactive">
+												<a href="#">View Pre Order List</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Add / Edit Model Finder</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Coming Soon</a>
+											</li>
+											<li>
+												<a href="#" class="playitbtn">Users & Accounts </a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								<div class="table-cell_ work_area" style="height: 100%;">
+									<div class="padding">
+										<!-- P A G E  -  W O R K  -  A R E A -->
+										<div id="body">
+											<div class="header">
+												<div class="headertitle">
+													Pre Order List
+												</div>
+												<div class="headercontent">
+													<i>Welcome Admin</i>
+													<input id="BtnLogout" class="btngray" type="button" value="Logout" />
+												</div>
+											</div>
+											<div class="line_space_40">
+											
+											</div>
+											<div class="order_dash_line_100_percent"></div>
+                                             <div class="line_space_40">
+											
+											</div>
+										<div id="scroll">
+											<div id="gridpanel">
+												<!-- END ---GRID APPENDS  -  A R E A -->
+											</div>
+										</div>
+
+										<div class="large_line_space">
+											<div id="animate" style="display:none;" align="center" >
+												Loading..............
+												<br/>
+												<img src="images/loading.gif" width="150px;" />
+											</div>
+										</div>
+                                        <div class="order_dash_line_100_percent"></div>
+                                        <div class="line_space_40"></div>
+										<input id="BtnExporttoExel" class="btngray" type="button" value="Export Selected to excel" />
+										<input id="BtnDeleteselectedlines" class="btngray" type="button" value="Delete selected lines" />
+										<input id="BtnSendEmailNotification1" class="btnyello" type="button" value="Send Email Notification 1" />
+										<input id="BtnSendEmailNotification2" class="btnyello" type="button" value="Send Email Notification 2" />
+										
+										<!-- END ---P A G E  -  W O R K  -  A R E A -->
+									</div>
+								</div>
+							</div>
+						</section>
+					</section>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>
+<iframe id="secretIFrame" src="" style="display:none; visibility:hidden;"></iframe>
+

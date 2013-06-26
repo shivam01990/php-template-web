@@ -1,0 +1,935 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head runat="server">
+		<title>Order</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link href="Styles/style.css" rel="stylesheet" type="text/css" />
+		<link href="Styles/msgBoxLight.css" rel="stylesheet" type="text/css" />
+		<script src="Scripts/jquery-2.0.0-vsdoc.js" type="text/javascript"></script>
+		<script src="Scripts/jquery-2.0.0.js" type="text/javascript"></script>
+		<script src="Scripts/jquery.msgBox.js" type="text/javascript"></script>
+		<script src="Scripts/weborderform.js" type="text/javascript"></script>
+		<script>
+			function initialize() {
+				$('#sequritycode_error').html("");
+				$('#sequritycode_billing').css('color', 'black');
+				$('#emailerror').html("");
+				$('#emaillabel').css('color', 'black');
+				$('#qtyerror').html("");
+				$('#qtylabel').css('color', 'black');
+				$("#txtfirstname_billing").prop("readonly", false);
+				$("#txtlastname_billing").prop("readonly", false);
+				$("#txtaddress1_billing").prop("readonly", false);
+				$("#txtaddressline2_billing").prop("readonly", false);
+				$("#txtcity_billing").prop("readonly", false);
+				$("#txtstate_billing").prop("readonly", false);
+				$("#txtpostalcode_billing").prop("readonly", false);
+				$("#txtcountry_billing").prop("readonly", false);
+				$("#txtphone_billing").prop("readonly", false);
+				$('#errorfirstname').html('');
+				$('#firstnamelabel').css('color', 'black');
+				$("#errorlastname").html('');
+				$('#lastnamelabel').css('color', 'black');
+				$('#erroraddressline1').html('');
+				$('#address1label').css('color', 'black');
+				$('#errorcity').html('');
+				$('#citylabel').css('color', 'black');
+				$('#txtstate').html('');
+				$('#errorstate').html("");
+				$('#statelabel').css('color', 'black');
+				$('#errorpostalcode').html('');
+				$('#postallabel').css('color', 'black');
+				$('#errorcountry').html('');
+				$('#countrylabel').css('color', 'black');
+				$('#errorphone').html('');
+				$('#phonelabel').css('color', 'black');
+				$('#firstname_billing_error').html('');
+				$('#firstname_billing').css('color', '');
+				$('#lastname_billing_error').html('');
+				$('#lastname_billing').css('color', '');
+				$('#address1_billing_error').html(" ");
+				$('#addressline1_billing').css('color', '');
+				$('#city_billing_error').html("  ");
+				$('#city_billing').css('color', '');
+				$('#state_billing_error').html(" ");
+				$('#state_billing').css('color', '');
+				$('#postalcode_billing_error').html("");
+				$('#postalcode_billing').css('color', '');
+				$('#country_billing_error').html(" ");
+				$('#country_billing').css('color', '');
+				$('#phone_billing_error').html(" ");
+				$('#phone_billing').css('color', '');
+				$('#card_billing_error').html(" ");
+				$('#creditcard_billing').css('color', 'black');
+				$('#nameofcard__billing_error').html("  ");
+				$('#fullnameoncard_shipping').css('color', 'black');
+				$('#sequritycode_error').html("");
+				$('#phonelabel').css('color', 'black');
+				$('#cardnumber_billing_error').html(" ");
+				$('#cardnumber').css('color', 'black');
+				$('#expdate_billing_error').html("");
+				$('#expdate_billing').css('color', 'black');
+			}
+
+			function check_validations() {
+
+				initialize();
+
+				var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				var regexnum = /^[0-9]+$/;
+				var qty = $('#txtqty').val();
+				var firstname = $('#txtfirstname').val();
+				var lastname = $('#txtlastname').val();
+				var address1 = $('#txtadderss1').val();
+				var address2 = $('#txtaddress2').val();
+				var city = $('#txtcity').val();
+				var state = $('#txtstate').val();
+				var postal_code = $('#txtPostalcode').val();
+				var txtcountry = $('#txtcountry').val();
+				var txtphone = $('#txtphone').val();
+				var card = $('input[name=card]:radio:checked').val();
+
+				var firstname_billing = $('#txtfirstname_billing').val();
+				var lastname_billing = $('#txtlastname_billing').val();
+				var address1_billing = $('#txtaddress1_billing').val();
+				var address2_billing = $('#txtaddressline2_billing').val();
+				var city_billing = $('#txtcity_billing').val();
+				var state_billing = $('#txtstate_billing').val();
+				var postal_code_billing = $('#txtpostalcode_billing').val();
+				var country_billing = $('#txtcountry_billing').val();
+				var phone_billing = $('#txtphone_billing').val();
+				var fullname_oncard_billing = $('#txtnameofcard').val();
+				var cardno_billing = $('#txtcardno').val();
+				var expdate_billing = $('#txtexpdate').val();
+				var sequrity_code_billing = $('#txtsequritycode').val();
+				var email = $('#txtemail').val();
+
+				var validate = true;
+
+				if (qty.trim() == "") {
+					$('#qtyerror').append(" * ");
+					$('#qtylabel').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(qty)) {
+						$('#qtyerror').append(" * ");
+						$('#qtylabel').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if (!regex.test(email)) {
+					$('#emailerror').append(" * ");
+					$('#emaillabel').css('color', 'red');
+					var validate = false;
+				}
+
+				if (firstname.trim() == "") {
+					$('#errorfirstname').append(" * ");
+					$('#firstnamelabel').css('color', 'red');
+					var validate = false;
+				}
+
+				if (lastname.trim() == "") {
+					$("#errorlastname").append(" * ");
+					$('#lastnamelabel').css('color', 'red');
+					var validate = false;
+
+				}
+
+				if (address1.trim() == "") {
+					$('#erroraddressline1').append(" * ");
+					$('#address1label').css('color', 'red');
+					var validate = false;
+				}
+
+				if (city.trim() == "") {
+					$('#errorcity').append(" * ");
+					$('#citylabel').css('color', 'red');
+					var validate = false;
+				}
+
+				if (state.trim() == "") {
+					$('#errorstate').append(" * ");
+					$('#statelabel').css('color', 'red');
+					validate = false;
+
+				}
+
+				if (postal_code.trim() == "") {
+					$('#errorpostalcode').append(" * ");
+					$('#postallabel').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(postal_code)) {
+						$('#errorpostalcode').append(" * ");
+						$('#postallabel').css('color', 'red');
+						var validate = false;
+					}
+				}
+				if (txtcountry.trim() == "") {
+					$('#errorcountry').append(" * ");
+					$('#countrylabel').css('color', 'red');
+					var validate = false;
+				}
+				if (txtphone.trim() == "") {
+					$('#errorphone').append(" * ");
+					$('#phonelabel').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(txtphone.trim())) {
+						$('#errorphone').append(" * ");
+						$('#phonelabel').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if (firstname_billing.trim() == "") {
+					$('#firstname_billing_error').append(" * ");
+					$('#firstname_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (lastname_billing.trim() == "") {
+					$('#lastname_billing_error').append(" * ");
+					$('#lastname_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (address1_billing.trim() == "") {
+					$('#address1_billing_error').append(" * ");
+					$('#addressline1_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				/* if (address2_billing == "") {
+				 $('#errorphone').append(" * ");
+				 $('#phonelabel').css('color', 'red');
+				 var validate = false;
+				 }*/
+
+				if (city_billing.trim() == "") {
+					$('#city_billing_error').append(" * ");
+					$('#city_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (state_billing.trim() == "") {
+					$('#state_billing_error').append(" * ");
+					$('#state_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (postal_code_billing.trim() == "") {
+					$('#postalcode_billing_error').append(" * ");
+					$('#postalcode_billing').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(postal_code_billing)) {
+						$('#postalcode_billing_error').append(" * ");
+						$('#postalcode_billing').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if (country_billing.trim() == "") {
+					$('#country_billing_error').append(" * ");
+					$('#country_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (phone_billing.trim() == "") {
+					$('#phone_billing_error').append(" * ");
+					$('#phone_billing').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(phone_billing.trim())) {
+						$('#phone_billing_error').append(" * ");
+						$('#phone_billing').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if (card == null) {
+					$('#card_billing_error').append(" * ");
+					$('#creditcard_billing').css('color', 'red');
+					var validate = false;
+				}
+
+				if (fullname_oncard_billing.trim() == "") {
+					$('#nameofcard__billing_error').append(" * ");
+					$('#fullnameoncard_shipping').css('color', 'red');
+					var validate = false;
+				}
+
+				if (cardno_billing.trim().length != 16) {
+					$('#cardnumber_billing_error').append(" * ");
+					$('#cardnumber').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(cardno_billing)) {
+						$('#cardnumber_billing_error').append(" * ");
+						$('#cardnumber').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if (expdate_billing.length != 4) {
+					$('#expdate_billing_error').append(" * ");
+					$('#expdate_billing').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(expdate_billing)) {
+						$('#expdate_billing_error').append(" * ");
+						$('#expdate_billing').css('color', 'red');
+						var validate = false;
+					}
+				}
+
+				if ((sequrity_code_billing.length != 4) && (sequrity_code_billing.length != 3 )) {
+					$('#sequritycode_error').append(" * ");
+					$('#sequritycode_billing').css('color', 'red');
+					var validate = false;
+				} else {
+					if (!regexnum.test(sequrity_code_billing)) {
+						$('#sequritycode_error').append(" * ");
+						$('#sequritycode_billing').css('color', 'red');
+						var validate = false;
+					}
+				}
+				var price = $('#price').text();
+				var model = $('#model').text();
+				var scale = $('#scale').text();
+				$('#scale_hidden').val(scale);
+				$('#model_hidden').val(model);
+				$('#price_hidden').val(price);
+
+				if (validate) {
+
+					$('#btnsubmitdata').removeClass("btngray");
+					$('#btnsubmitdata').addClass("btnyello");
+					$('#btnsubmitdata').addClass("white_text");
+					setTimeout(disableFunction, 1);
+
+				}
+				return validate;
+
+			}
+
+			function loginalert() {
+				var username = getCookie("username");
+				//  if (username != "admin") {
+				jsCaterpillarlogin("Caterpillar Employee Pre Order Login");
+				/*	$('#append_custom_message').html('User name & password is provided to you through your Caterpillar employee pre order email invitation.');
+				$('#append_custom_message').css('margin-top','10px');
+				$('.msgBox').css('min-height','276px');
+				$('.msgBox').css('width','550px');
+				$('.msgBoxContentlogin').css('width','50%');
+				$('.loginbtnarea').css('width','45%');
+				$('.loginbtnarea').css('text-align','justify');
+				$('div.msgBoxLoginTitle').css('height','90px');		*/
+
+				//}
+
+			}
+
+			function disableFunction() {
+				$('#btnsubmitdata').attr('disabled', true);
+			}
+
+
+			$(document).ready(function() {
+
+				loginalert();
+
+				$('#txtqty').change(function() {//code for qty change
+					var regexnum = /^[0-9]+$/;
+					var qty = $('#txtqty').val();
+					if (regexnum.test(qty)) {
+						var price = $('#price').text();
+						var amount = qty * price;
+						amount = amount.toFixed(2);
+						$('#txtunittolal').val(amount);
+					}
+				});
+
+				$('#Checkboxcondition').click(function() {
+					if (this.checked) {
+						$('#btnsubmitdata').addClass("btngray");
+						$('#btnsubmitdata').removeClass("graybg");
+						$('#btnsubmitdata').prop('disabled', false);
+
+					} else {
+						$('#btnsubmitdata').removeClass("btngray");
+						$('#btnsubmitdata').addClass("graybg");
+						$('#btnsubmitdata').prop('disabled', true);
+
+					}
+
+				});
+				$("#txtunittolal").prop("readonly", true);
+
+				$('input:checkbox[name=radiocopyshipping]').click(function() {
+					// var val = $('input:radio[name=radiocopyshipping]:checked').val();
+
+					if ($('#radiocopyshipping').is(':checked')) {
+						initialize();
+
+						var firstname = $('#txtfirstname').val();
+						var lastname = $('#txtlastname').val();
+						var address1 = $('#txtadderss1').val();
+						var address2 = $('#txtcity').val();
+						var city = $('#txtcity').val();
+						var state = $('#txtstate').val();
+						var postal_code = $('#txtPostalcode').val();
+						var txtcountry = $('#txtcountry').val();
+						var txtphone = $('#txtphone').val();
+						var validate = true;
+						var regexnum = /^[0-9]+$/;
+						if (firstname.trim() == "") {
+							$('#errorfirstname').append(" * ");
+							$('#firstnamelabel').css('color', 'red');
+							var validate = false;
+						}
+
+						if (lastname.trim() == "") {
+							$("#errorlastname").append(" * ");
+							$('#lastnamelabel').css('color', 'red');
+							var validate = false;
+
+						}
+
+						if (address1.trim() == "") {
+							$('#erroraddressline1').append(" * ");
+							$('#address1label').css('color', 'red');
+							var validate = false;
+						}
+
+						if (city.trim() == "") {
+							$('#errorcity').append(" * ");
+							$('#citylabel').css('color', 'red');
+							var validate = false;
+						}
+
+						if (state.trim() == "") {
+							$('#errorstate').append(" * ");
+							$('#statelabel').css('color', 'red');
+							var validate = false;
+						}
+
+						if (postal_code.trim() == "") {
+							$('#errorpostalcode').append(" * ");
+							$('#postallabel').css('color', 'red');
+							var validate = false;
+						} else {
+							if (!regexnum.test(postal_code)) {
+								$('#errorpostalcode').append(" * ");
+								$('#postallabel').css('color', 'red');
+								var validate = false;
+							}
+						}
+						if (txtcountry.trim() == "") {
+							$('#errorcountry').append(" * ");
+							$('#countrylabel').css('color', 'red');
+							var validate = false;
+						}
+						if (txtphone.trim() == "") {
+							$('#errorphone').append(" * ");
+							$('#phonelabel').css('color', 'red');
+							var validate = false;
+						} else {
+							if (!regexnum.test(txtphone.trim())) {
+								$('#errorphone').append(" * ");
+								$('#phonelabel').css('color', 'red');
+								var validate = false;
+							}
+
+						}
+
+						if (validate) {
+							$('#txtfirstname_billing').val(firstname);
+							$('#txtlastname_billing').val(lastname);
+							$('#txtaddress1_billing').val(address1);
+							$('#txtaddressline2_billing').val(address2);
+							$('#txtcity_billing').val(city);
+							$('#txtstate_billing').val(state);
+							$('#txtpostalcode_billing').val(postal_code);
+							$('#txtcountry_billing').val(txtcountry);
+							$('#txtphone_billing').val(txtphone);
+
+							$("#txtfirstname_billing").prop("readonly", true);
+							$(".xyz").addClass("graystyle");
+							$("input.xyz").addClass("grayBorder");
+							$("#txtfirstname_billing").prop("readonly", true);
+							$("#txtlastname_billing").prop("readonly", true);
+							$("#txtaddress1_billing").prop("readonly", true);
+							$("#txtaddressline2_billing").prop("readonly", true);
+							$("#txtcity_billing").prop("readonly", true);
+							$("#txtstate_billing").prop("readonly", true);
+							$("#txtpostalcode_billing").prop("readonly", true);
+							$("#txtcountry_billing").prop("readonly", true);
+							$("#txtphone_billing").prop("readonly", true);
+						} else {
+							$('#radiocopyshipping').prop('checked', false);
+						}
+					}
+					else
+					{
+						$('#txtfirstname_billing').val('');
+							$('#txtlastname_billing').val('');
+							$('#txtaddress1_billing').val('');
+							$('#txtaddressline2_billing').val('');
+							$('#txtcity_billing').val('');
+							$('#txtstate_billing').val('');
+							$('#txtpostalcode_billing').val('');
+							$('#txtcountry_billing').val('');
+							$('#txtphone_billing').val('');
+
+							$("#txtfirstname_billing").prop("readonly", false);
+							$(".xyz").removeClass("graystyle");
+							$("input.xyz").removeClass("grayBorder");
+							$("#txtfirstname_billing").prop("readonly", false);
+							$("#txtlastname_billing").prop("readonly", false);
+							$("#txtaddress1_billing").prop("readonly", false);
+							$("#txtaddressline2_billing").prop("readonly", false);
+							$("#txtcity_billing").prop("readonly", false);
+							$("#txtstate_billing").prop("readonly", false);
+							$("#txtpostalcode_billing").prop("readonly", false);
+							$("#txtcountry_billing").prop("readonly", false);
+							$("#txtphone_billing").prop("readonly", false);
+					}
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<div class="line_space"></div>
+		<div class="Container">
+			<form id="order_form_post" action="custom/order_post.php" method="post" >
+				<div class="font_helvetica_bold order_form_strip radius_top_12 order_form_border_top order_form_border_left_right">
+					<div class="flot_left width_50_percent">
+						<div class="margin_top_25 font_size_40 font_bolder">
+							Pre order here!
+						</div>
+					</div>
+					<div class="flot_left width_50_percent">
+						<div class="margin_top_25 font_size_30 font_bold font_helvetica_bold">
+							Caterpillar Employees Only
+						</div>
+					</div>
+				</div>
+				<div class="order_form_banner order_form_border_left_right">
+					<div class="font_helvetica_bold flot_left width_50_percent font_size_35 margin_top_150 font_bold ">
+						988K Wheel Loader
+					</div>
+					<div class="flot_left width_50_percent">
+						<img src="images/loder.png" width="100%" />
+					</div>
+				</div>
+				<div class="order_form_strip order_form_border_left_right">
+					<div class="font_size_30 font_helvatica_regular">
+						<div class="line_space"></div>
+						<i class="font_hevetica_regular_oblique">Limited time offer! Orders must be submitted by July 20th 2013</i>
+						<br />
+					</div>
+					<div class="font_size_18 font_helvetica_lightoblique">
+						<i>*orders will be delivered by late November</i>
+					</div>
+				</div>
+				<div class="order_form_workarea  order_form_border_left_right order_form_border_bottom">
+					<div class="line_space_40">
+						&nbsp;
+					</div>
+					<div class=" font_size_30 font_bold width_100_percent font_helvetica_bold">
+						Caterpillar Employees Only
+					</div>
+					<div class="line_space_40">
+						&nbsp;
+					</div>
+					<div style="width: 85%; margin: auto; height: 40px;">
+						<div class="width_15_percent flot_left">
+							Scale:<b id="scale" class="font_helvetica_bold"> 1/50</b>
+							<input id="scale_hidden" name="scale_hidden" type="hidden" />
+						</div>
+						<div class="width_20_percent flot_left">
+							Model: <b id="model"  class="font_helvetica_bold">988K</b>
+							<input id="model_hidden" name="model_hidden" type="hidden" />
+						</div>
+						<div class="width_20_percent flot_left">
+							Price: <b>$</b><b id="price" class="font_helvetica_bold">69.95</b>
+							<input id="price_hidden" name="price_hidden" type="hidden" />
+							US dollars
+						</div>
+						<div class="width_20_percent flot_left">
+							<span id="qtylabel" class=" font_helvetica_bold">Qty</span><strong>
+							<input id="txtqty" name="txtqty" type="text" size="6" class="txtbackground"  autocomplete="off"/>
+							<span id="qtyerror"
+							class="errormessage"></span></strong>
+						</div>
+						<div class="width_20_percent flot_left" style="color: #ACACAC;font-size: 15px;">
+							Suggested price: $109.95
+						</div>
+					</div>
+					<div class="line_space">
+						&nbsp;
+					</div>
+					<div class="order_dash_line">
+						&nbsp;
+					</div>
+					<div class="line_space_40">
+						&nbsp;
+					</div>
+					<div>
+						<div id="emaillabel" align="right" class=" width_40_percent flot_left height_80 ">
+							<div class=" margin_top_15"></div>
+							Caterpillar Employee Email
+						</div>
+						<div align="left" class="width_58_percent height_80 comment flot_right">
+							Must have a valid cat employee email address for pre-order
+							<br />
+							<input id="txtemail" name="txtemail" class="width_350 txtbackground " type="text" autocomplete="off" />
+							<span id="emailerror"
+							class="errormessage"></span>
+						</div>
+					</div>
+					<div class="large_line_space">
+						&nbsp;
+					</div>
+					<div class="order_dash_line"></div>
+					<div class="line_space_40">
+						&nbsp;
+					</div>
+					<div class="font_size_25  ">
+						Shipping Information
+					</div>
+
+					<div class="line_space_40">
+						&nbsp;
+					</div>
+					<div class="order_form_shipping_location">
+						<div>
+							<div align="right" class="width_40_percent flot_left height_30 ">
+								Company Name
+							</div>
+							<div align="left" class="width_58_percent  flot_right height_30">
+								<input id="txtCompaneyname" name="txtCompaneyname" class="width_230 txtbackground" type="text" size="50px" autocomplete="off" />
+								<i class="comment">(Only if shipping to business)</i>
+							</div>
+						</div>
+						<div>
+							<div id="firstnamelabel" align="right" class=" width_40_percent flot_left height_30 ">
+								First Name
+							</div>
+							<div align="left" class="width_58_percent  flot_right height_30">
+								<input id="txtfirstname" name="txtfirstname" class="width_230 txtbackground" type="text" size="50px" autocomplete="off" />
+								<span
+								id="errorfirstname" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="lastnamelabel" align="right" class="width_40_percent flot_left height_30 ">
+								Last Name
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtlastname" name="txtlastname" type="text" size="50px" class="width_230 txtbackground" autocomplete="off"/>
+								<span
+								id="errorlastname" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="address1label" align="right" class="width_40_percent flot_left height_30 ">
+								Address Line 1
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtadderss1" name="txtadderss1" class="width_230 txtbackground" type="text" size="50px" autocomplete="off"/>
+								<span
+								id="erroraddressline1" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div align="right" class="width_40_percent flot_left height_30 ">
+								Address Line 2
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtaddress2" name="txtaddress2" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+							</div>
+						</div>
+						<div>
+							<div id="citylabel" align="right" class="width_40_percent flot_left height_30 ">
+								City
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtcity" name="txtcity" type="text" size="50px" class="width_230 txtbackground" autocomplete="off"/>
+								<span
+								id="errorcity" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="statelabel" align="right" class="width_40_percent flot_left height_30 ">
+								State or Province
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtstate" name="txtstate" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+								<span
+								id="errorstate" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="postallabel" align="right" class="width_40_percent flot_left height_30 ">
+								Postal Code
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtPostalcode" name="txtPostalcode" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+								<span
+								id="errorpostalcode" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="countrylabel" align="right" class="width_40_percent flot_left height_30 ">
+								Country
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtcountry" name="txtcountry" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+								<span
+								id="errorcountry" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="phonelabel" align="right" class="width_40_percent flot_left height_30 ">
+								Phone
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtphone"  name="txtphone" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+								<span
+								id="errorphone" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div align="right" class="width_40_percent flot_left height_30 "></div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<div class="line_space"></div>
+								<input id="radiocopyshipping" name="radiocopyshipping" type="checkbox" autocomplete="off" />
+								<label for="radiocopyshipping" style="display: inline"> Click here if billing info is same as shipping?</label>
+							</div>
+						</div>
+					</div>
+					<div class="order_dash_line"></div>
+					<div class="line_space_40"></div>
+					<div class="font_size_25 xyz ">
+						Billing Information
+					</div>
+					<div class="line_space_40"></div>
+					<div class="order_form_billing_information">
+						<div>
+							<div id='firstname_billing' align="right" class="width_40_percent flot_left height_30 xyz ">
+								First Name
+							</div>
+							<div align="left" class="width_58_percent  flot_right height_30">
+								<input id="txtfirstname_billing" name="txtfirstname_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="firstname_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='lastname_billing' align="right" class="width_40_percent flot_left height_30 xyz">
+								Last Name
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtlastname_billing" name="txtlastname_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="lastname_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='addressline1_billing' align="right" class="width_40_percent flot_left height_30 xyz ">
+								Address Line 1
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtaddress1_billing" name="txtaddress1_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="address1_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='addressline2_billing' align="right" class="width_40_percent flot_left height_30 xyz">
+								Address Line 2
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtaddressline2_billing" name="txtaddressline2_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="addressline2_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="city_billing" align="right" class="width_40_percent flot_left height_30 xyz">
+								City
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtcity_billing" name="txtcity_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="city_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='state_billing' align="right" class="width_40_percent flot_left height_30 xyz ">
+								State or Province
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtstate_billing" name="txtstate_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off"/>
+								<span
+								id="state_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='postalcode_billing' align="right" class="width_40_percent flot_left height_30 xyz ">
+								Postal Code
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtpostalcode_billing" name="txtpostalcode_billing" class="width_230 txtbackground xyz" type="text" autocomplete="off"
+								size="50px" />
+								<span id="postalcode_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='country_billing' align="right" class="width_40_percent flot_left height_30 xyz">
+								Country
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtcountry_billing" name="txtcountry_billing" class="width_230 txtbackground xyz" type="text" size="50px" autocomplete="off"/>
+								<span id="country_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='phone_billing' align="right" class="width_40_percent flot_left height_30 xyz ">
+								Phone
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtphone_billing" name="txtphone_billing" type="text" size="50px" class="width_230 txtbackground xyz" autocomplete="off" />
+								<span
+								id="phone_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='creditcard_billing' align="right" class="width_40_percent flot_left height_30  ">
+								Credit Card<span id="card_billing_error" class="errormessage"></span>
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right font_size_18 font_size_12 ">
+								<input id="Radiovisa" name="card" type="radio" value="visa" autocomplete="off"/>
+								Visa
+								<input id="RadioMaster"
+								value="master" name="card" type="radio" autocomplete="off" />
+								Master Card
+								<input id="Radioamericanexpress"
+								name="card" value="americanexpress" type="radio"  autocomplete="off"/>
+								American Express <span id="carderror"
+								class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='fullnameoncard_shipping' align="right" class="width_40_percent flot_left height_30 ">
+								Full Name On Card
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtnameofcard" name="txtnameofcard" type="text" size="50px" class="width_230 txtbackground" autocomplete="off" />
+								<span
+								id="nameofcard__billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id='cardnumber' align="right" class="width_40_percent flot_left height_30 ">
+								Card Number
+							</div>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<input id="txtcardno" name="txtcardno" type="text" size="50px" class="width_230 txtbackground" maxlength="16" autocomplete="off"/>
+								<span
+								id="cardnumber_billing_error" class="errormessage"></span>
+							</div>
+						</div>
+						<div>
+							<div id="expdate_billing" align="right" class="width_40_percent flot_left height_30 ">
+								Exp Date
+							</div>
+							<span id="exp_billing_error" class="errormessage"></span>
+							<div align="left" class="width_58_percent height_30 flot_right">
+								<span class="flot_left">
+									<input id="txtexpdate" name="txtexpdate" size="6" type="text" class="txtbackground" maxlength="4" autocomplete="off" />
+								</span><span
+								id="expdate_billing_error" class=" errormessage flot_left" class="errormessage flot_left"></span><i
+								class="comment flot_left font_hevetica_regular_oblique">In MMYY format &nbsp;</i><span id="sequritycode_billing"
+								class="flot_left"> Security Code&nbsp; </span><span class="flot_left">
+									<input id="txtsequritycode" name="txtsequritycode" type="text" size="6" maxlength="4" class="txtbackground" autocomplete="off" />
+									&nbsp;</span>
+								<span id="sequritycode_error" class="errormessage flot_left"></span>
+								<div class=" flot_left font_hevetica_regular_oblique">
+									<i class="comment pad_Right_20 ">
+									<div>
+										Visa/MC - 3 digit code on back of card.
+										<br />
+										AMEX - 4 digit code on front of card.
+									</div> </i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="order_dash_line"></div>
+					<div class="line_space_40"></div>
+					<div class="order_form_workarea_thirdpanel">
+						Unit Total
+						<input id="txtunittolal" name="txtunittolal" type="text" size="10" class="txtbackground" autocomplete="off" />
+						<div class="line_space"></div>
+						<div class="font_size_18">
+							Standard UPS shipping rates will apply.
+						</div>
+						<div class="font_size_12">
+							By checking this box I agree to pay standard UPS shipping cost in addition to
+							<br />
+							the unit total shown above. I allow the card entered in the billing section to be
+							<br />
+							processed accordingly.
+						</div>
+						<div class="font_size_12 font_bold">
+							<input id="Checkboxcondition" name="Checkboxcondition" type="checkbox" autocomplete="off" />
+							I accept these terms
+						</div>
+						<div class="line_space"></div>
+						<input class="graybg font_bold height_30 width_150 margin_left_20" id="btnsubmitdata"
+						disabled="disabled" type="submit"  onclick="javascript: return check_validations()"
+						value="Submit Order" autocomplete="off" />
+					</div>
+					<div class="line_space"></div>
+					<i>Comfirmation of purchase will be sent to your Caterpillar employee email shortly</i>
+					<div class="line_space_40"></div>
+					<div class="order_dash_line"></div>
+					<div class="line_space_40"></div>
+					<div style="height: 200px;">
+						<div class="width_50_percent flot_left text_align_left margin_top_20 ">
+							<div class=" margin_left_180">
+								<div class="font_size_18">
+									For order inquiries contact:
+								</div>
+								<div class="line_space_40"></div>
+								Phone: <b>(206)542-6919</b>
+								<div class="font_size_12">
+									Email Customer Service at:
+									<br />
+									<b>preorder@tonkinreplicas.com</b>
+								</div>
+								<div class="line_space_40"></div>
+								Fulfilled and manufactured by Tonkin Replicas.
+							</div>
+						</div>
+						<div class="width_50_percent flot_left">
+							<img height="184px" src="images/logo.png" />
+						</div>
+					</div>
+					<div class="order_dash_line"></div>
+					<div class="line_space"></div>
+					<img src="images/bottombanner.png" width="500" />
+					<div class="line_space_40"></div>
+				</div>
+			</form>
+		</div>
+		<div class="large_line_space"></div>
+	</body>
+</html>
